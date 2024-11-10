@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: type-a
+  namespace: lizzoslunch
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: type-a
+  template:
+    metadata:
+      labels:
+        app: type-a
+    spec:
+      automountServiceAccountToken: false #
+      containers:
+      - name: giftwrapped-container
+        image: gcr.io/pooper-scooper/cahir:v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000  # Ensure you change this to a non-privileged port like 8080 if needed
+        securityContext: #
+          seccompProfile:
+            type: RuntimeDefault #
+          readOnlyRootFilesystem: true #
+          runAsNonRoot: true #
+          runAsUser: 5000 #
+          allowPrivilegeEscalation: false #
+          capabilities: #
+            drop:
+            - ALL
+        resources:
+          requests:
+            memory: "256Mi"  # Minimum memory requested
+            cpu: "250m"      # Minimum CPU requested
+          limits:
+            memory: "512Mi"    # Maximum memory allowed
+            cpu: "500m"     # Maximum CPU allowed            
+  volumeClaimTemplates:
+  - metadata:
+      name: orbiter-module
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: "bordeaux"

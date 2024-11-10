@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: bordeaux
+provisioner: kubernetes.io/gce-pd  # GCP-specific provisioner for Persistent Disks
+parameters:
+  type: pd-ssd  # Defines the disk type (SSD)
+  replication-type: none
+reclaimPolicy: Delete  # Deletes volume after cluster tear down.
+allowVolumeExpansion: true  # Allows increasing the size of the volume
+
+# Key note: You do not define namespaces on storage classes

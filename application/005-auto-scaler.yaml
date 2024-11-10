@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: scaler
+  namespace: lizzoslunch
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet  # Or Deployment if you're using that
+    name: type-a  # Name of the StatefulSet or Deployment you want to scale
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80  # Scale if average CPU usage exceeds 80%

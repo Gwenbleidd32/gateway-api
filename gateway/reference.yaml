@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-cross-namespace-access
+  namespace: lizzoslunch  # Namespace where the service (my-app-service) is located
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: default  # Namespace where the HTTPRoute is defined
+  to:
+    - group: "" # group: "" is used for core resources like Service that don’t belong to any custom API group.
+      kind: Service
+      name: my-app-service  # Name of the service being referenced

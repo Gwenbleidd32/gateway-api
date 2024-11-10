@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: lizzoslunch
+spec:
+  hard:
+    requests.cpu: "10"  # The total requested CPU for all pods 
+    requests.memory: 10Gi  # The total requested memory for all pods
+    limits.cpu: "10"  # The total CPU limit for all pods 
+    limits.memory: 20Gi  # The total memory limit for all pods 

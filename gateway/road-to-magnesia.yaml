@@ -1,0 +1,14 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: road-to-magnesia
+spec:
+  parentRefs:
+  - kind: Gateway
+    name: balders-gate
+  rules:
+  - backendRefs:
+    - name: my-app-service
+      namespace: lizzoslunch
+      port: 80
+      weight: 100
